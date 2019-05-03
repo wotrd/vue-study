@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-if="http://www.w3.org/1999/xhtml"
+      xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!-- 显示data中的数据，表达式可以进行拼接，
+     v-text显示
+     v-html可以渲染标签
+ -->
+<div id="app">
+    <h1>hello, vue{{name}}</h1>
+    <h1 v-text="name"></h1>
+    <h1 v-html="name"></h1>
+</div>
+<!-- v-bind指令使用 -->
+<div id="app1">
+    <span v-bind:title="name">
+        悬停几秒出现
+    </span>
+
+</div>
+<!--条件与显示-->
+<div id="app2">
+    <span v-if="flag">
+        flag为true显示，flag为false隐藏
+    </span>
+
+</div>
+
+<!--列表显示 v-for, -->
+<div id="app3">
+    <!-- 循环显示字符串数组 -->
+    <ul>
+        <li v-for="name in names">
+            {{name}}
+        </li>
+    </ul>
+    <!--  循环遍历对象数组 -->
+    <ul>
+        <li v-for="person in persons" :key="person.id">
+            姓名{{person.name}}---性别:{{person.gender}}
+        </li>
+    </ul>
+</div>
+
+<!--列表显示 v-on, 使用事件 -->
+<div id="app4">
+    <h1>点击按钮会逆转我{{msg}}哦</h1>
+    <!-- 循环显示字符串数组 -->
+    <input type="button" value="逆转消息" v-on:click="reverseMsg">
+
+</div>
+
+<script type="text/javascript">
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            name: 'tom'
+        }
+    });
+    var vm1 = new Vue({
+        el: "#app1",
+        data: {
+            name: 'tom' + new Date().toLocaleString()
+        }
+    });
+    var vm2 = new Vue({
+        el: "#app2",
+        data: {
+            flag: true
+        }
+    });
+    var vm3 = new Vue({
+        el: "#app3",
+        data: {
+            names: [
+                'tom',
+                'bob',
+                'nancy'
+            ],
+            persons: [
+                {id: 1, name: 'tom', gender: '男'},
+                {id: 2, name: 'bob', gender: '男'},
+                {id: 3, name: 'nancy', gender: '女'},
+            ]
+        }
+    });
+    var vm4 = new Vue({
+        el: "#app4",
+        data: {
+            msg: "hello, vue!"
+        },
+        methods: {
+            reverseMsg(el, arg1) {
+                this.msg=this.msg.split("").reverse().join("");
+            }
+        }
+    })
+</script>
+</body>
+</html>
