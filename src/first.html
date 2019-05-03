@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-if="http://www.w3.org/1999/xhtml"
-      xmlns:v-on="http://www.w3.org/1999/xhtml">
+      xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-modal="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -55,6 +55,13 @@
 
 </div>
 
+<!--列表显示 v-modal, 将表单和data中的数据进行绑定 -->
+<div id="app5">
+    <h1>输入信息我会变{{msg}}哦</h1>
+    <!-- 循环显示字符串数组 -->
+    <input type="text" placeholder="请输入" v-model="msg">
+
+</div>
 <script type="text/javascript">
     var vm = new Vue({
         el: "#app",
@@ -98,6 +105,12 @@
             reverseMsg(el, arg1) {
                 this.msg=this.msg.split("").reverse().join("");
             }
+        }
+    })
+    var vm5 = new Vue({
+        el: "#app5",
+        data: {
+            msg: ""
         }
     })
 </script>
