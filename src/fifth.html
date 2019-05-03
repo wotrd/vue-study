@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        .active {
+            background-color: aqua;
+        }
+
+        .error {
+            color: hotpink;
+        }
+
+        .static {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<div id="app">
+
+    <!-- class和style绑定 -->
+    <!--  class可以绑定一个对象，active类样式是否生效，取决于isActive的值  -->
+    <div v-bind:class="{ active: isActive }">class</div>
+    <!--  class可以绑定一个对象，可以多个class同时使用  -->
+    <div class="static" v-bind:class="{ active: isActive, 'error': hasError }"> ggg</div>
+
+    <div v-bind:class="classObject">classObject</div>
+
+    <div v-bind:class="[activeClass, errorClass]">数组语法</div>
+
+    <div v-bind:class="[isActive?activeClass:'', errorClass]">数组中使用三元运算符语法</div>
+
+    <!--  用在组件上  -->
+    <my-component class="baz boo"></my-component>
+
+    <!------------------------------------------------------------------------------------------------------------------->
+    <!-------绑定内联样式-------->
+    <!--CSS 属性名可以用驼峰式 (camelCase) 或短横线分隔 (kebab-case，记得用单引号括起来)-->
+    <div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }">内联样式</div>
+
+    <!-- 绑定对象 -->
+    <div v-bind:style="styleObject">绑定对象</div>
+    <!-- 数组语法 -->
+    <div v-bind:style="[baseStyles, overridingStyles]">数组语法</div>
+
+
+    <!--  计算属性  -->
+    <!--  模板内的表达式非常便利，但是设计它们的初衷是用于简单运算的。在模板中放入太多的逻辑会让模板过重且难以维护  -->
+    <div id="example">
+        {{ message.split('').reverse().join('') }}
+    </div>
+    <!--  表达式内可以用变量，也可以用方法  -->
+    <div id="example1">
+        {{ reversedMessage }}
+    </div>
+</div>
+<!-- 计算属性和侦听器 -->
+<script type="text/javascript">
+    var data = {
+        message: 'gga',
+        isActive: false,
+        hasError: true,
+        classObject: {
+            'active': false,
+            'error': false
+        },
+        activeClass: 'active',
+        errorClass: 'error',
+        activeColor: 'red',
+        fontSize: 30,
+        baseStyles: {
+            color: 'green',
+            // fontSize: '50px'
+        },
+        overridingStyles: {
+            // color: 'red',
+            fontSize: '10px'
+        },
+
+    };
+
+    Vue.component('my-component', {
+        template: '<p class="foo bar">Hi</p>'
+    });
+
+    var vm = new Vue({
+        el: "#app",
+        data: data,
+        computed: {
+            // 计算属性的 getter
+            reversedMessage: function () {
+                // `this` 指向 vm 实例
+                return this.message.split('').reverse().join('')
+            }
+        },
+        methods: {
+            reverseMessage() {
+                this.message = this.message.split("").reverse().join("");
+            }
+        }
+
+    });
+
+</script>
+</body>
+</html>

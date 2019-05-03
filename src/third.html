@@ -6,45 +6,40 @@
 </head>
 <body>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<!-- 使用组件
- -->
+
 <div id="app">
     <ol>
-        <item-com v-for="item in groceryList" v-bind:todo="item" v-bind:key="item.id"></item-com>
+<!--        <item-com v-for="item in groceryList" v-bind:todo="item" v-bind:key="item.id"></item-com>-->
     </ol>
+    <h1>{{msg}}</h1>
 </div>
-
+<!-- vue实例 -->
 <script type="text/javascript">
-    //定义组件
-    Vue.component("item-com", {
-        // todo-item 组件现在接受一个
-        // "prop"，类似于一个自定义特性。
-        // 这个 prop 名为 todo。
-        props: ['todo'],
-        template: '<li>{{ todo.text }}</li>'
-    });
-
+    var data = {
+        msg:'gg'
+    };
     var vm = new Vue({
         el: "#app",
-        data: {
-            groceryList: [
-                {
-                    id: 1,
-                    text: '蔬菜'
-                },
-                {
-                    id: 2,
-                    text: '奶酪'
-                },
-                {
-                    id: 3,
-                    text: '菠萝'
-                }
-            ]
+        data: data,
+        //created 钩子可以用来在一个实例被创建之后执行代码
+        created: function () {
+            // `this` 指向 vm 实例
+            console.log('msg is: ' + this.msg)
         }
 
     });
+    vm.$data === data // => true
+    vm.$el === document.getElementById('app') // => true
 
+    // $watch 是一个实例方法
+    vm.$watch('a', function (newValue, oldValue) {
+        // 这个回调将在 `vm.a` 改变后调用
+
+    })
+
+    console.info("vm.$data === data:  " + (vm.$data === data));
+
+    console.info("vm.$el === document.getElementById('app'):  " + (vm.$el === document.getElementById('app')));
 </script>
 </body>
 </html>

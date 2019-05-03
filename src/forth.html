@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<div id="app">
+    <ol>
+        <!--        <item-com v-for="item in groceryList" v-bind:todo="item" v-bind:key="item.id"></item-com>-->
+    </ol>
+
+    <div v-bind:id="isButtonDisabled">id绑定</div>
+    <button v-bind:disabled="isButtonDisabled">Button</button>
+
+    <a v-bind:href="url">超链接</a>
+    <a href="baidu.com">超链接1</a>
+    <!--每个绑定都只能包含单个表达式，所以下面的例子都不会生效。 start-->
+    <p>{{ number + 1 }}</p>
+
+    <p>{{ ok ? 'YES' : 'NO' }}</p>
+
+    <p>{{ message.split('').reverse().join('') }}</p>
+
+    <!-- id是一个变量 -->
+    <div v-bind:id="'list-' + id"></div>
+
+    <!-- end -->
+
+    <!-- 动态参数 -->
+    <a v-bind:[attributename]="url">bind参数 </a>
+
+    <input v-on:[onname]="showTitle">bind参数 </input>
+
+    <!--  动态参数结束  -->
+
+    <!--    修饰符 -->
+    <hr/>
+    <form method="get" action="first.html">
+        <input type="text" value="hello"/>
+        <input type="reset" value="重置"/>
+        <!--    prevent去掉默认属性    -->
+        <input type="submit" value="提交" v-on:click.prevent="onSubmit"/>
+    </form>
+
+    <!--    修饰符结束-->
+
+
+    <!--    缩写 -->
+    <hr/>
+    <input type="text" v-on:click="onSubmit" value="重置"/>
+    <!--    v-on用@号替换    -->
+    <input type="text" @click="onSubmit" value="重置"/>
+
+    <input type="text" v-bind:id="onSubmit" value="提交"/>
+    <!--    v-bind用：号替换    -->
+    <input type="text" :id="onSubmit" value="提交"/>
+
+    <!--    缩写结束-->
+</div>
+<!-- vue 模板语法 -->
+
+<script type="text/javascript">
+    var data = {
+        id: 1,
+        isButtonDisabled: true,
+        number: 10,
+        ok: false,
+        message: 'hello,vue',
+        url: 'www.baidu.com',
+        attributename: "href",
+        onname: "mouseover"
+    };
+    var vm = new Vue({
+        el: "#app",
+        data: data,
+        methods: {
+            showTitle() {
+                alert("ggg");
+            },
+            onSubmit() {
+                alert("提交");
+            }
+        }
+
+    });
+</script>
+</body>
+</html>

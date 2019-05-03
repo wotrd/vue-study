@@ -15,6 +15,8 @@
     <h1>hello, vue{{name}}</h1>
     <h1 v-text="name"></h1>
     <h1 v-html="name"></h1>
+    <!--    渲染后，不在根据data中的数据进行改变 -->
+    <span v-once>这个将不会改变: {{ msg }}</span>
 </div>
 <!-- v-bind指令使用 -->
 <div id="app1">
@@ -49,9 +51,11 @@
 
 <!--列表显示 v-on, 使用事件 -->
 <div id="app4">
-    <h1>点击按钮会逆转我{{msg}}哦</h1>
+    <h1 v-if="flag">点击按钮会逆转我{{msg}}哦</h1>
     <!-- 循环显示字符串数组 -->
     <input type="button" value="逆转消息" v-on:click="reverseMsg">
+    <input type="button" value="change" v-on:click="msg = 'ggg'">
+    <input type="button" value="change" v-on:click="flag = !flag">
 
 </div>
 
@@ -99,11 +103,13 @@
     var vm4 = new Vue({
         el: "#app4",
         data: {
-            msg: "hello, vue!"
+            msg: "hello, vue!",
+            flag: true
+
         },
         methods: {
             reverseMsg(el, arg1) {
-                this.msg=this.msg.split("").reverse().join("");
+                this.msg = this.msg.split("").reverse().join("");
             }
         }
     })

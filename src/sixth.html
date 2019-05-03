@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        .active {
+            background-color: aqua;
+        }
+    </style>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!--条件渲染-->
+<div id="app">
+    <h1 v-if="awesome">Vue is awesome!</h1>
+    <h1 v-else>Oh no 😢</h1>
+
+    <!--    v-else 元素必须紧跟在带 v-if 或者 v-else-if 的元素的后面，否则它将不会被识别。  -->
+    <div v-if="Math.random() > 0.5">
+        Now you see me
+    </div>
+    <div v-else>
+        Now you don't
+    </div>
+
+    <!--    切换 loginType 将不会清除用户已经输入的内容。因为两个模板使用了相同的元素，<input> 不会被替换掉——仅仅是替换了它的 placeholder  -->
+    <template v-if="loginType === 'username'">
+        <label>Username</label>
+        <input placeholder="Enter your username">
+    </template>
+    <template v-else>
+        <label>Email</label>
+        <input placeholder="Enter your email address">
+    </template>
+    <br>
+    <!--  添加key后，需要重新渲染  -->
+    <template v-if="loginType1 === 'username'">
+        <label>Username</label>
+        <input placeholder="Enter your username" key="username-input">
+        <br>
+    </template>
+    <template v-else>
+        <label>Email</label>
+        <input placeholder="Enter your email address" key="email-input">
+    </template>
+
+
+    <!-------------------------------------------    v-show指令   ------------------------------------------------->
+    <!--    不同的是带有 v-show 的元素始终会被渲染并保留在 DOM 中。v-show 只是简单地切换元素的 CSS 属性 display,
+    注意，v-show 不支持 <template> 元素，也不支持 v-else    -->
+    <!--    当 v-if 与 v-for 一起使用时，v-for 具有比 v-if 更高的优先级. 不推荐同时使用 v-if 和 v-for-->
+    <h1 v-show="ok">Hello!</h1>
+
+</div>
+<!-- 计算属性和侦听器 -->
+<script type="text/javascript">
+    var data = {
+        awesome: true,
+        loginType: 'username',
+        loginType1: 'username',
+        ok: true,
+    };
+
+    Vue.component('my-component', {
+        template: '<p class="foo bar">Hi</p>'
+    });
+
+    var vm = new Vue({
+        el: "#app",
+        data: data,
+
+    });
+
+</script>
+</body>
+</html>
