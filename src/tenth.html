@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!-- 组件基础 -->
+<div id="app">
+    <blog-post title="My journey with Vue"></blog-post>
+    <blog-post title="Blogging with Vue"></blog-post>
+    <blog-post title="Why Vue is so fun"></blog-post>
+    <!--数组-->
+    <blog-post v-for="post in posts" v-bind:key="post.id" v-bind:title="post.title"></blog-post>
+
+    <blog-post
+            v-for="post in posts"
+            v-bind:key="post.id"
+            v-bind:post="post"
+    ></blog-post>
+    <!--  监听子组件事件  -->
+    <div id="blog-posts-events-demo">
+        <div v-bind:style="{ fontSize: postFontSize + 'em' }">
+            <blog-post v-for="post in posts" v-bind:key="post.id" v-bind:post="post"
+                       v-on:enlarge-text="postFontSize += 0.1"></blog-post>
+        </div>
+    </div>
+
+    <!-- 使用事件抛出一个值   <blog-post> 组件决定它的文本要放大多少。这时可以使用 $emit 的第二个参数来提供这个值：-->
+
+    <!--    然后当在父级组件监听这个事件的时候，我们可以通过 $event 访问到被抛出的这个值：-->
+    <div id="blog-posts-events-demo1">
+        <div v-bind:style="{ fontSize: postFontSize + 'em' }">
+            <blog-post v-for="post in posts" v-bind:key="post.id" v-bind:post="post"
+                       v-on:enlarge-text="postFontSize += $event"></blog-post>
+        </div>
+    </div>
+    <!--如果这个事件处理函数是一个方法：-->
+    <div id="blog-posts-events-demo2">
+        <div v-bind:style="{ fontSize: postFontSize + 'em' }">
+            <blog-post v-for="post in posts" v-bind:key="post.id" v-bind:post="post"
+                       v-on:enlarge-text="onEnlargeText"></blog-post>
+        </div>
+    </div>
+    <!--在组件上使用 v-model-->
+    <custom-input v-model="searchText"></custom-input>
+    <h1>{{searchText}}</h1>
+    <!--  使用插槽  -->
+    <alert-box>
+        Something bad happened.
+    </alert-box>
+
+    <!--  动态组件，  -->
+    <!-- 组件会在 `currentTabComponent` 改变时改变 currentTabComponent 可以包括已注册组件的名字，或一个组件的选项对象  -->
+    <component v-bind:is="currentTabComponent"></component>
+</div>
+
+
+<script type="text/javascript">
+    var data = {
+        posts: [
+            {id: 1, title: 'My journey with Vue'},
+            {id: 2, title: 'Blogging with Vue'},
+            {id: 3, title: 'Why Vue is so fun'}
+        ],
+        postFontSize: 2,
+        searchText: 'ffff',
+        currentTabComponent:'alert-box'
+    };
+    // Vue.component('blog-post', {
+    //     props: ['title'],
+    //     template: '<h3>{{ title }}</h3>'
+    // })
+    /*  Vue.component('blog-post', {
+          props: ['post'],
+          template: `
+      <div class="blog-post">
+        <h3>{{ post.title }}</h3>
+        <div v-html="post.content"></div>
+      </div>
+    `
+      });*/
+
+    /* Vue.component('blog-post', {
+         props: ['post'],
+         template: `
+     <div class="blog-post">
+       <h3>{{ post.title }}</h3>
+       <button v-on:click="$emit('enlarge-text')">
+         Enlarge text
+       </button>
+       <div v-html="post.content"></div>
+     </div>
+   `
+     })*/
+    /* Vue.component('blog-post', {
+         props: ['post'],
+         template: `
+     <div class="blog-post">
+       <h3>{{ post.title }}</h3>
+        <button v-on:click="$emit('enlarge-text', 0.1)">
+         Enlarge text
+         </button>
+       <div v-html="post.content"></div>
+     </div>
+   `
+     })*/
+
+    Vue.component('custom-input', {
+        props: ['value'],
+        template: `<input v-bind:value="value" v-on:input="$emit('input', $event.target.value)">`
+    });
+
+
+     Vue.component('alert-box', {
+         template: `
+     <div class="demo-alert-box">
+       <strong>Error!</strong>
+       <slot></slot>
+     </div>
+   `
+     });
+
+    //因为组件是可复用的 Vue 实例，所以它们与 new Vue 接收相同的选项，例如 data、computed、watch、methods
+    // 以及生命周期钩子等。仅有的例外是像 el 这样根实例特有的选项。
+    // new Vue({ el: '#components-demo' })
+    var vm = new Vue({
+        el: "#app",
+        data: data,
+        methods: {
+            onEnlargeText: function (enlargeAmount) {
+                this.postFontSize += enlargeAmount
+            }
+        }
+
+    });
+
+</script>
+</body>
+</html>

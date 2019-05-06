@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!-- 组件深入 -->
+<div id="app">
+    <!--    组件注册    -->
+    <!--    全局注册    -->
+    <my-component-name></my-component-name>
+
+    <!--  局部注册  -->
+    <comment-a></comment-a>
+
+    <!--  模块系统  -->
+</div>
+
+<script type="text/javascript">
+    var data = {};
+
+    //在所有子组件中也是如此，也就是说这三个组件在各自内部也都可以相互使用
+    Vue.component('my-component-name', {
+        // ... 选项 ...
+    });
+
+    var ComponentA = { /* ... */}
+
+    /**
+     * 或者如果你通过 Babel 和 webpack 使用 ES2015 模块，那么代码看起来更像：
+     import ComponentA from './ComponentA.vue'
+     export default {
+                components: {
+                    ComponentA
+                },
+                // ...
+            }
+     */
+    var vm = new Vue({
+        el: "#app",
+        data: data,
+        methods: {},
+        components: {
+            'component-a': ComponentA,
+        }
+    });
+
+</script>
+</body>
+</html>
